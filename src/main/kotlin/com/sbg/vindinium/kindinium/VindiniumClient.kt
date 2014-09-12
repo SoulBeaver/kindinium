@@ -120,6 +120,6 @@ class VindiniumClient(val bot: Bot) {
         /*
          * TODO: You must specify your own API key in order to play the game.
          */
-        val API_KEY = "u3d1qxgf"
+        val API_KEY = ""
     }
 }

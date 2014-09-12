@@ -6,6 +6,14 @@ Welcome to [Vindinium](vindinium.org), the fun AI challenge that lets you battle
 This client is written in Kotlin and is fully functional, allowing you to jump right in, write a bot,
 and smash those heroes in epic battle!
 
+## What does it offer?
+
+Kindinium boasts:
+
+- Training and Arena mode
+- Customization of training mode (number of turns, map)
+- A MetaBoard. It analyzes the json board and gives you information on the locations of heroes, mines, and taverns
+
 ## What do I need?
 
 If you haven't registered yourself yet, please head to the [Vindinium Registration Page](http://vindinium.org/register)
@@ -47,9 +55,10 @@ With the bot of your choosing. Please implement the *Bot* trait.
 
 ## What's in store for future iterations?
 
-I'd like to expand the map. Right now you get the raw, uninterpreted map and a bunch of unimplemented functions.
-That should change very soon and give you detailed, important information about the map and the object
-contained therein.
+I'd like to expand the MetaBoard. It's great that you can see the location of everything in the game, or
+even go straight to the entire board and create your own pathfinding algorithms. However, I'd like to take
+care of the pathfinding in future versions, so that you can focus on the algorithms necessary to defeat
+your opponent!
 
 ## I have further questions!
 
