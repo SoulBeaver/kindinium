@@ -39,7 +39,6 @@ import com.sbg.vindinium.kindinium.model.MetaBoard
 class VindiniumClient(val bot: Bot) {
     private val serverUrl = "http://vindinium.org/api"
 
-    private val gson = Gson()
     private val client = ClientBuilder.newClient()!!
 
     /**
@@ -90,7 +89,7 @@ class VindiniumClient(val bot: Bot) {
 
         val jsonResponse = post(serverTarget)
 
-        return gson.fromJson(jsonResponse, javaClass<Response>())!!
+        return Gson().fromJson(jsonResponse, javaClass<Response>())!!
     }
 
     private fun post(serverTarget: WebTarget): String {
@@ -112,7 +111,7 @@ class VindiniumClient(val bot: Bot) {
         val entity = response.getEntity() as ByteArrayInputStream
 
         InputStreamReader(entity).use {
-            println("There was an error with our request and the server said: ${it.readText()}")
+            println("There was an error with the request and the server replied: ${it.readText()}")
         }
     }
 
