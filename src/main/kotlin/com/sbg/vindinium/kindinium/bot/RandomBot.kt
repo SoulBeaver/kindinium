@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-package com.sbg.vindinium.kindinium
+package com.sbg.vindinium.kindinium.bot
 
 import com.sbg.vindinium.kindinium.model.Game
 import java.util.Random
@@ -27,6 +27,6 @@ class RandomBot: Bot {
     val possibleActions = Action.values()
 
     override fun chooseAction(game: Game): Action {
-        return possibleActions[random.nextInt()]
+        return possibleActions[random.nextInt(possibleActions.size)]
     }
 }

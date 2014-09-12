@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream
 import java.nio.charset.StandardCharsets
 import java.io.InputStreamReader
 import javax.ws.rs.NotFoundException
+import com.sbg.vindinium.kindinium.bot.Bot
 
 /**
  * Controller class that starts, runs, and terminates a session with the Vindinium server. Accepts
@@ -71,6 +72,9 @@ class VindiniumClient(val bot: Bot) {
         println("Please don't exit the program until it has notified you of game completion")
 
         while (!response.game.finished) {
+            System.out.print("\rTurn ${response.game.turn} of ${response.game.maxTurns}")
+            System.out.flush()
+
             val nextAction = bot.chooseAction(response.game)
 
             val url = "${response.playUrl}?key=${API_KEY}&dir=${nextAction.name}"

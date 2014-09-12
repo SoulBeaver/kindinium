@@ -16,6 +16,7 @@ limitations under the License.
 package com.sbg.vindinium.kindinium
 
 import com.beust.jcommander.JCommander
+import com.sbg.vindinium.kindinium.bot.RandomBot
 
 fun main(args: Array<String>) {
     val programArguments = parseProgramArguments(args)
