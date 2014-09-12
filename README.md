@@ -2,7 +2,7 @@
 
 ## Vindinium for Kotlin
 
-Welcome to [Vindinium](vindinium.org), the fun AI challeng that lets you battle heroes and goblins!
+Welcome to [Vindinium](vindinium.org), the fun AI challenge that lets you battle heroes and goblins!
 This client is written in Kotlin and is fully functional, allowing you to jump right in, write a bot,
 and smash those heroes in epic battle!
 
@@ -20,8 +20,8 @@ That's technically it! A random bot will now participate in a training game when
 
 ## How do I change the game mode?
 
-The program supports both the *arena* and *training* modes. By default, a training mode with 300
-turns, and a random map is chosen.
+The program supports both the *arena* and *training* modes. By default a training mode with 300
+turns and a random map is chosen.
 
 ### I want to play in Arena mode!
 
@@ -33,12 +33,12 @@ Run the game with *-m arena*
 
 ### I want to change the number of turns a game is played!
 
-(Only in training mode) Run the game with *-t #* where # is the number of turn you'd like to play.
+(Only in training mode) Run the game with *-t #* where # is the number of turns you'd like to play.
 
 ## How do I change my bot?
 
 The random bot is simple, stupid, and not likely to win you any prizes. You *could* simply extend
-the rando bot, but then it wouldn't be a RandomBot anymore :) Instead, head to *Main.kt* and
+the random bot, but then it wouldn't be a RandomBot anymore :) Instead, head to *Main.kt* and
 modify the line
 
     val client = VindiniumClient(RandomBot())
