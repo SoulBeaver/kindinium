@@ -15,4 +15,6 @@ limitations under the License.
  */
 package com.sbg.vindinium.kindinium.model
 
-data class Position(val x: Int, val y: Int)
+data class Position(val x: Int, val y: Int) {
+    override fun toString(): String = "($x, $y)"
+}

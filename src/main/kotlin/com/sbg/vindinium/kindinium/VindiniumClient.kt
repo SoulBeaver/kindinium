@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets
 import java.io.InputStreamReader
 import javax.ws.rs.NotFoundException
 import com.sbg.vindinium.kindinium.bot.Bot
+import com.sbg.vindinium.kindinium.model.MetaBoard
 
 /**
  * Controller class that starts, runs, and terminates a session with the Vindinium server. Accepts
@@ -75,14 +76,13 @@ class VindiniumClient(val bot: Bot) {
             System.out.print("\rTurn ${response.game.turn} of ${response.game.maxTurns}")
             System.out.flush()
 
-            val nextAction = bot.chooseAction(response.game)
+            val metaBoard = MetaBoard(response.game.board)
+            val nextAction = bot.chooseAction(response.game, metaBoard)
 
-            val url = "${response.playUrl}?key=${API_KEY}&dir=${nextAction.name}"
-
-            response = sendRequest(url)
+            response = sendRequest("${response.playUrl}?key=${API_KEY}&dir=${nextAction.name}")
         }
 
-        println("The game has finished.")
+        println("\nThe game has finished.")
     }
 
     private fun sendRequest(url: String): Response {
@@ -120,6 +120,6 @@ class VindiniumClient(val bot: Bot) {
         /*
          * TODO: You must specify your own API key in order to play the game.
          */
-        val API_KEY = ""
+        val API_KEY = "u3d1qxgf"
     }
 }

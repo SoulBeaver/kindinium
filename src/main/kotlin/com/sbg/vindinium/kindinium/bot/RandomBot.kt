@@ -17,6 +17,7 @@ package com.sbg.vindinium.kindinium.bot
 
 import com.sbg.vindinium.kindinium.model.Game
 import java.util.Random
+import com.sbg.vindinium.kindinium.model.MetaBoard
 
 /**
  * The RandomBot follows no particular logic when deciding which action to take.
@@ -26,7 +27,7 @@ class RandomBot: Bot {
 
     val possibleActions = Action.values()
 
-    override fun chooseAction(game: Game): Action {
+    override fun chooseAction(game: Game, metaBoard: MetaBoard): Action {
         return possibleActions[random.nextInt(possibleActions.size)]
     }
 }

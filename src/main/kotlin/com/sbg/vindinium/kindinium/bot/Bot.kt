@@ -16,6 +16,7 @@ limitations under the License.
 package com.sbg.vindinium.kindinium.bot
 
 import com.sbg.vindinium.kindinium.model.Game
+import com.sbg.vindinium.kindinium.model.MetaBoard
 
 enum class Action(val name: String) {
     NORTH: Action("North")
@@ -30,5 +31,5 @@ enum class Action(val name: String) {
  * current state of game.
  */
 trait Bot {
-    fun chooseAction(game: Game): Action
+    fun chooseAction(game: Game, metaBoard: MetaBoard): Action
 }
