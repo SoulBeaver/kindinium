@@ -1,0 +1,101 @@
+{
+    "game": {
+        "id": "z4okiary",
+        "turn": 0,
+        "maxTurns": 1200,
+        "heroes": [
+            {
+                "id": 1,
+                "name": "IAE",
+                "userId": "pwszirn4",
+                "elo": 1200,
+                "pos": {
+                    "x": 4,
+                    "y": 2
+                },
+                "life": 100,
+                "gold": 0,
+                "mineCount": 0,
+                "spawnPos": {
+                    "x": 4,
+                    "y": 2
+                },
+                "crashed": false
+            },
+            {
+                "id": 2,
+                "name": "random",
+                "pos": {
+                    "x": 17,
+                    "y": 2
+                },
+                "life": 100,
+                "gold": 0,
+                "mineCount": 0,
+                "spawnPos": {
+                    "x": 17,
+                    "y": 2
+                },
+                "crashed": false
+            },
+            {
+                "id": 3,
+                "name": "random",
+                "pos": {
+                    "x": 17,
+                    "y": 19
+                },
+                "life": 100,
+                "gold": 0,
+                "mineCount": 0,
+                "spawnPos": {
+                    "x": 17,
+                    "y": 19
+                },
+                "crashed": false
+            },
+            {
+                "id": 4,
+                "name": "random",
+                "pos": {
+                    "x": 4,
+                    "y": 19
+                },
+                "life": 100,
+                "gold": 0,
+                "mineCount": 0,
+                "spawnPos": {
+                    "x": 4,
+                    "y": 19
+                },
+                "crashed": false
+            }
+        ],
+        "board": {
+            "size": 22,
+            "tiles": "    ##  ############################  ##            ##      ##  $-$-  ##      ##        ##  ##    ##                    ##    ##  ##    ##  ##      []########[]      ##  ##        @1  ##  ########    ########  ##  @4                  ##            ##                                ##    ##                      $-      ##    ########    ##      $-    ##    ####    ##$-########$-##    ####    ##          ########################          ##    ################################    ####    ################################    ##          ########################          ##    ####    ##$-########$-##    ####    ##    $-      ##    ########    ##      $-                      ##    ##                                ##            ##                  @2  ##  ########    ########  ##  @3        ##  ##      []########[]      ##  ##    ##  ##    ##                    ##    ##  ##        ##      ##  $-$-  ##      ##            ##  ############################  ##    "
+        },
+        "finished": false
+    },
+    "hero": {
+        "id": 1,
+        "name": "IAE",
+        "userId": "pwszirn4",
+        "elo": 1200,
+        "pos": {
+            "x": 4,
+            "y": 2
+        },
+        "life": 100,
+        "gold": 0,
+        "mineCount": 0,
+        "spawnPos": {
+            "x": 4,
+            "y": 2
+        },
+        "crashed": false
+    },
+    "token": "78n0",
+    "viewUrl": "http://vindinium.org/z4okiary",
+    "playUrl": "http://vindinium.org/api/z4okiary/78n0/play"
+}

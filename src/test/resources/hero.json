@@ -1,0 +1,18 @@
+{
+    "id": 1,
+    "name": "IAE",
+    "userId": "pwszirn4",
+    "elo": 1200,
+    "pos": {
+        "x": 4,
+        "y": 2
+    },
+    "life": 100,
+    "gold": 0,
+    "mineCount": 0,
+    "spawnPos": {
+        "x": 4,
+        "y": 2
+    },
+    "crashed": false
+}
