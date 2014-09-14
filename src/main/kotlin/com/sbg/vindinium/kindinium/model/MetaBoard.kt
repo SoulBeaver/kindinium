@@ -121,12 +121,15 @@ data class MetaBoard(val board: Board) {
             boardTile == BoardTile.HERO_FOUR_GOLD_MINE
         }
 
-        val truncatedContestedMines = hashMapOf<BoardTile, ArrayList<Position>>()
+        val truncatedContestedMines = hashMapOf(
+                BoardTile.HERO_ONE to arrayListOf<Position>(),
+                BoardTile.HERO_TWO to arrayListOf<Position>(),
+                BoardTile.HERO_THREE to arrayListOf<Position>(),
+                BoardTile.HERO_FOUR to arrayListOf<Position>()
+        )
         for (mine in contestedMines) {
-            if (truncatedContestedMines.contains(mine.value))
-                truncatedContestedMines[mine.value]!!.add(mine.key)
-            else
-                truncatedContestedMines[mine.value] = arrayListOf(mine.key)
+            val heroTile = toBoardTile(mine.value.representation.replace('$', '@'))
+            truncatedContestedMines[heroTile]!!.add(mine.key)
         }
 
         return truncatedContestedMines
