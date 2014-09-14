@@ -4,6 +4,7 @@ import org.spek.Spek
 import com.sbg.vindinium.kindinium.streamToString
 import com.google.gson.Gson
 import kotlin.test.assertEquals
+import com.sbg.vindinium.kindinium.model.board.Board
 
 class BoardTest: Spek() {{
     val gson = Gson()

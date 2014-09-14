@@ -1,6 +1,6 @@
-package com.sbg.vindinium.kindinium.model
+package com.sbg.vindinium.kindinium.model.board
 
-enum class BoardTile(val representation: String) {
+enum class BoardTile(val symbol: String) {
     ROAD: BoardTile("  ")
     IMPASSABLE_WOOD: BoardTile("##")
 
@@ -18,13 +18,13 @@ enum class BoardTile(val representation: String) {
     HERO_THREE_GOLD_MINE: BoardTile("$3")
     HERO_FOUR_GOLD_MINE: BoardTile("$4")
 
-    override fun toString(): String = representation
+    override fun toString(): String = symbol
 }
 
-fun toBoardTile(representation: String): BoardTile {
+fun toBoardTile(symbol: String): BoardTile {
     val boardTiles = BoardTile.values().toArrayList()
 
     return boardTiles.first {
-        it.representation == representation
+        it.symbol == symbol
     }
 }

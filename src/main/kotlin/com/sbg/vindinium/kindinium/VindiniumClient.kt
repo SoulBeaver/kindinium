@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets
 import java.io.InputStreamReader
 import javax.ws.rs.NotFoundException
 import com.sbg.vindinium.kindinium.bot.Bot
-import com.sbg.vindinium.kindinium.model.MetaBoard
+import com.sbg.vindinium.kindinium.model.board.MetaBoard
 
 /**
  * Controller class that starts, runs, and terminates a session with the Vindinium server. Accepts
@@ -67,6 +67,8 @@ class VindiniumClient(val bot: Bot) {
 
     private fun play(startingUrl: String) {
         var response = sendRequest(startingUrl)
+
+        bot.initialize(response)
 
         println("The game has started, you can view it here: ${response.viewUrl}")
         println("Please don't exit the program until it has notified you of game completion")

@@ -17,17 +17,21 @@ package com.sbg.vindinium.kindinium.bot
 
 import com.sbg.vindinium.kindinium.model.Game
 import java.util.Random
-import com.sbg.vindinium.kindinium.model.MetaBoard
+import com.sbg.vindinium.kindinium.model.board.MetaBoard
+import com.sbg.vindinium.kindinium.model.Response
 
 /**
  * The RandomBot follows no particular logic when deciding which action to take.
  */
 class RandomBot: Bot {
-    val random = Random()
+    private val random = Random()
+    private val possibleActions = Action.values()
 
-    val possibleActions = Action.values()
+    override fun initialize(response: Response) {
+        // RandomBot does nothing during initialization.
+    }
 
-    override fun chooseAction(game: Game, metaBoard: MetaBoard): Action {
+    override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
         return possibleActions[random.nextInt(possibleActions.size)]
     }
 }

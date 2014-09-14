@@ -4,6 +4,9 @@ import org.spek.Spek
 import com.google.gson.Gson
 import com.sbg.vindinium.kindinium.streamToString
 import kotlin.test.assertEquals
+import com.sbg.vindinium.kindinium.model.board.Board
+import com.sbg.vindinium.kindinium.model.board.MetaBoard
+import com.sbg.vindinium.kindinium.model.board.BoardTile
 
 class MetaBoardTest: Spek() {{
     val gson = Gson()
@@ -15,43 +18,43 @@ class MetaBoardTest: Spek() {{
 
         on("asking for the location of hero @1") {
             it("returns the position (4, 2)") {
-                assertEquals(Position(4, 2), metaboard.heroes[BoardTile.HERO_ONE])
+                assertEquals(Position(4, 2), metaboard.hero("@1"))
             }
         }
 
         on("asking for the location of hero @2") {
             it("returns the position (17, 2)") {
-                assertEquals(Position(17, 2), metaboard.heroes[BoardTile.HERO_TWO])
+                assertEquals(Position(17, 2), metaboard.hero("@2"))
             }
         }
 
         on("asking for the position of hero @3") {
             it("returns the position (17, 20)") {
-                assertEquals(Position(17, 19), metaboard.heroes[BoardTile.HERO_THREE])
+                assertEquals(Position(17, 19), metaboard.hero("@3"))
             }
         }
 
         on("asking for the position of hero @4") {
             it("returns the position (4, 20)") {
-                assertEquals(Position(4, 19), metaboard.heroes[BoardTile.HERO_FOUR])
+                assertEquals(Position(4, 19), metaboard.hero("@4"))
             }
         }
 
         on("asking for mines owned by @1") {
             it("returns an empty list") {
-                assertEquals(listOf<Position>(), metaboard.contestedMines[BoardTile.HERO_ONE])
+                assertEquals(listOf<Position>(), metaboard.minesOwnedBy("@1"))
             }
         }
 
         on("asking for mines owned by @2") {
             it("returns a list with positions (1, 10) and (1, 11)") {
-                assertEquals(listOf(Position(1, 10), Position(1, 11)), metaboard.contestedMines[BoardTile.HERO_TWO])
+                assertEquals(listOf(Position(1, 10), Position(1, 11)), metaboard.minesOwnedBy("@2"))
             }
         }
 
         on("asking for mines owned by @3") {
             it("returns a list with a single position (13, 8)") {
-                assertEquals(listOf(Position(13, 8)), metaboard.contestedMines[BoardTile.HERO_THREE])
+                assertEquals(listOf(Position(13, 8)), metaboard.minesOwnedBy("@3"))
             }
         }
 
@@ -69,7 +72,7 @@ class MetaBoardTest: Spek() {{
                         Position(20, 11)
                 )
 
-                assertEquals(neutralMinePositions, metaboard.neutralMines)
+                assertEquals(neutralMinePositions, metaboard.neutralMines())
             }
         }
 
@@ -82,8 +85,43 @@ class MetaBoardTest: Spek() {{
                         Position(18, 13)
                 )
 
-                assertEquals(tavernPositions, metaboard.taverns)
+                assertEquals(tavernPositions, metaboard.taverns())
             }
         }
+
+        /*
+        on("asking for the nearest neutral mine from @1") {
+            it("returns the mine at (7, 2)") {
+                val hero1Position = metaboard.hero("@1")
+
+                assertEquals(Position(7, 2), metaboard.nearestMine(hero1Position))
+            }
+        }
+
+        on("asking for the nearest neutral mine from @2") {
+            it("returns the mine at (14, 2)") {
+                val hero2Position = metaboard.heroes[BoardTile.HERO_TWO]!!
+
+                assertEquals(Position(14, 2), metaboard.nearestMine(hero2Position))
+            }
+        }
+
+        on("asking for the nearest tavern from @1") {
+            it("returns the tavern (3, 8)") {
+                val hero1Position = metaboard.heroes[BoardTile.HERO_ONE]!!
+
+                assertEquals(Position(3, 8), metaboard.nearestTavern(hero1Position))
+            }
+        }
+
+        on("asking for the nearest hero from @1") {
+            it("returns the hero @2 at (17, 4)") {
+                val hero1Position = metaboard.heroes[BoardTile.HERO_ONE]!!
+                val hero2Position = metaboard.heroes[BoardTile.HERO_TWO]!!
+
+                assertEquals(hero2Position, metaboard.nearestHero(hero1Position))
+            }
+        }
+        */
     }
 }}

@@ -16,6 +16,7 @@ limitations under the License.
 package com.sbg.vindinium.kindinium.model
 
 import com.sbg.vindinium.kindinium
+import com.sbg.vindinium.kindinium.model.board.Board
 
 data class Game {
     /**

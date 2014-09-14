@@ -16,7 +16,9 @@ limitations under the License.
 package com.sbg.vindinium.kindinium.bot
 
 import com.sbg.vindinium.kindinium.model.Game
-import com.sbg.vindinium.kindinium.model.MetaBoard
+import com.sbg.vindinium.kindinium.model.board.MetaBoard
+import com.sbg.vindinium.kindinium.model.Response
+import kotlin.properties.Delegates
 
 enum class Action(val name: String) {
     NORTH: Action("North")
@@ -31,5 +33,7 @@ enum class Action(val name: String) {
  * current state of game.
  */
 trait Bot {
-    fun chooseAction(game: Game, metaBoard: MetaBoard): Action
+    fun initialize(response: Response)
+
+    fun chooseAction(response: Response, metaboard: MetaBoard): Action
 }
