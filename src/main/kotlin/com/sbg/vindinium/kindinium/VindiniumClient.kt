@@ -78,7 +78,7 @@ class VindiniumClient(val bot: Bot) {
             System.out.flush()
 
             val metaBoard = MetaBoard(response.game.board)
-            val nextAction = bot.chooseAction(response.game, metaBoard)
+            val nextAction = bot.chooseAction(response, metaBoard)
 
             response = sendRequest("${response.playUrl}?key=${API_KEY}&dir=${nextAction.name}")
         }

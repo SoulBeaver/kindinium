@@ -20,8 +20,6 @@ data class MetaBoard(val board: Board) {
     private val neutralMines: List<Position>
     private val taverns: List<Position>
 
-    fun boardLayout(): Map<Position, BoardTile> = boardLayout
-
     fun hero(symbol: String): Position = heroes[toBoardTile(symbol)]!!
     fun hero(boardTile: BoardTile): Position = heroes[boardTile]!!
 
@@ -33,6 +31,19 @@ data class MetaBoard(val board: Board) {
     fun taverns(): List<Position> = taverns
 
     fun boardSize() = board.size
+
+    fun nearestMine(from: Position): Path = boardNavigator.pathToNearest(mines, from)!!
+    fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines, from)!!
+    fun nearestContestedMine(from: Position): Path? = boardNavigator.pathToNearest(contestedMines.values().reduce { all, part -> all + part}, from)
+
+    fun nearestHero(from: Position): Path = boardNavigator.pathToNearest(heroes.values().toList(), from)!!
+
+    fun nearestTavern(from: Position): Path = boardNavigator.pathToNearest(taverns, from)!!
+
+    fun pathTo(from: Position, to: Position): Path? = throw NotImplementedException()
+
+    fun get(x: Int, y: Int): BoardTile = boardLayout[Position(x, y)]!!
+    fun get(position: Position): BoardTile = boardLayout[position]!!
 
     /* Implementation details start here */
 
@@ -64,7 +75,7 @@ data class MetaBoard(val board: Board) {
         return tiles.withIndices().map { pair ->
             val (i, tile) = pair
 
-            Position(i / board.size, i % board.size) to toBoardTile(tile.toString())
+            Position(i % board.size, i / board.size) to toBoardTile(tile.toString())
         }.toMap()
     }
 
@@ -119,19 +130,23 @@ data class MetaBoard(val board: Board) {
         }.map { entry -> entry.key }
     }
 
-    private data class Tile(val leftPiece: Char, val rightPiece: Char) {
-        override fun toString(): String = "$leftPiece$rightPiece"
-    }
-
     override fun toString(): String {
-        return StringBuilder() {
-            val boardLayoutValues = boardLayout.values()
+        val invertedBoardLayout = boardLayout.map { entry ->
+            val position = entry.key
 
-            for ((i, tile) in boardLayoutValues.withIndices()) {
+            Position(position.y, position.x) to entry.value
+        }.toMap()
+
+        return StringBuilder() {
+            for ((i, tile) in invertedBoardLayout.values().withIndices()) {
                 if (i % board.size == 0)
                     appendln()
-                append(tile.symbol)
+                append(tile)
             }
         }.toString()
+    }
+
+    private data class Tile(val leftPiece: Char, val rightPiece: Char) {
+        override fun toString(): String = "$leftPiece$rightPiece"
     }
 }

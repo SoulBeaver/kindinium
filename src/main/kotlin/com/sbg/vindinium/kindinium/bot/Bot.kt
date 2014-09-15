@@ -20,14 +20,6 @@ import com.sbg.vindinium.kindinium.model.board.MetaBoard
 import com.sbg.vindinium.kindinium.model.Response
 import kotlin.properties.Delegates
 
-enum class Action(val name: String) {
-    NORTH: Action("North")
-    EAST: Action("East")
-    SOUTH: Action("South")
-    WEST: Action("West")
-    STAY: Action("Stay")
-}
-
 /**
  * A bot is any entity capable of choosing an action based in part on the
  * current state of game.
