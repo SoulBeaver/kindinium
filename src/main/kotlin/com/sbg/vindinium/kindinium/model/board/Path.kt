@@ -9,10 +9,20 @@ import com.sbg.vindinium.kindinium.bot.Action
 import java.util.ArrayList
 import com.sbg.vindinium.kindinium.pairwise
 
-data class Path(paths: Map<Position, Position?>, val destination: Position, start: Position) {
+/**
+ * Represents the path from start to destination as either the Positions or Actions necessary
+ * to move from start to destination.
+ */
+data class Path(paths: Map<Position, Position?>, val destination: Position, val start: Position) {
     private val path: Queue<Position>
     private val directions: Queue<Action>
 
+    /**
+     * Get the next Step in the path. A Step represents the next Position and the
+     * action required to reach it.
+     *
+     * @throws NoSuchElementException if there are no more Steps in the Path.
+     */
     public fun next(): Step {
         return Step(path.remove(), directions.remove())
     }
@@ -57,6 +67,6 @@ data class Path(paths: Map<Position, Position?>, val destination: Position, star
 
         throw IllegalArgumentException("Unable to reach destination within one turn: $from -> $to")
     }
-}
 
-data class Step(val position: Position, val action: Action)
+    public data class Step(val position: Position, val action: Action)
+}

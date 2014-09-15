@@ -4,13 +4,31 @@ import java.util.HashMap
 import com.sbg.vindinium.kindinium.model.Position
 import java.util.ArrayList
 
+/**
+ * The BoardNavigator knows how to navigate a MetaBoard and create the shortest
+ * path to and from any Position.
+ */
 private class BoardNavigator(val metaboard: MetaBoard) {
+    /**
+     * Given a set of Positions, finds a path to the nearest one, if any.
+     *
+     * @return a Path to the nearest position in targets, or null if no Path could be found.
+     */
     public fun pathToNearest(targets: List<Position>, start: Position): Path? {
         val pathsToStart = constructPathsFrom(start)
 
         val nearestTarget = findNearest(start, targets, pathsToStart)
 
         return if (nearestTarget != null) Path(pathsToStart, nearestTarget, start) else null
+    }
+
+    /**
+     * Constructs the shortest path to a given position.
+     *
+     * @return a Path to the given Position, or null if no Path could be found.
+     */
+    public fun pathTo(to: Position, start: Position): Path? {
+        return pathToNearest(listOf(to), start)
     }
 
     private fun constructPathsFrom(start: Position): HashMap<Position, Position?> {

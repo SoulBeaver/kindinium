@@ -20,28 +20,61 @@ data class MetaBoard(val board: Board) {
     private val neutralMines: List<Position>
     private val taverns: List<Position>
 
+    /**
+     * Returns the position of a hero.
+     *
+     * @return the Position of the hero, or NoSuchElementException if the symbol is incorrect.
+     */
     fun hero(symbol: String): Position = heroes[toBoardTile(symbol)]!!
     fun hero(boardTile: BoardTile): Position = heroes[boardTile]!!
 
+    /**
+     * Returns all mines on the map.
+     */
     fun mines(): List<Position> = mines
+    /**
+     * Returns any mines owned by the chosen hero, or an empty list.
+     */
     fun minesOwnedBy(symbol: String): List<Position> = contestedMines[toBoardTile(symbol)]!!
     fun minesOwnedBy(boardTile: BoardTile): List<Position> = contestedMines[boardTile]!!
+    /**
+     * Returns any neutral mines, or an empty list if all mines are captured.
+     */
     fun neutralMines(): List<Position> = neutralMines
 
     fun taverns(): List<Position> = taverns
 
-    fun boardSize() = board.size
-
+    /**
+     * Returns a guaranteed Path to the nearest mine.
+     */
     fun nearestMine(from: Position): Path = boardNavigator.pathToNearest(mines, from)!!
+    /**
+     * Returns a Path to the nearest neutral mine, or null if no neutral mines exist.
+     */
     fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines, from)!!
+    /**
+     * Returns a Path to the nearest contested mine, or null if no contested mines exist.
+     */
     fun nearestContestedMine(from: Position): Path? = boardNavigator.pathToNearest(contestedMines.values().reduce { all, part -> all + part}, from)
 
+    /**
+     * Returns a Path to the nearest hero.
+     */
     fun nearestHero(from: Position): Path = boardNavigator.pathToNearest(heroes.values().toList(), from)!!
 
+    /**
+     * Returns a Path to the nearest tavern.
+     */
     fun nearestTavern(from: Position): Path = boardNavigator.pathToNearest(taverns, from)!!
 
-    fun pathTo(from: Position, to: Position): Path? = throw NotImplementedException()
+    /**
+     * Returns a Path to anywhere, or null if a Path to the goal could not be found.
+     */
+    fun pathTo(from: Position, to: Position): Path? = boardNavigator.pathTo(to, from)
 
+    /**
+     * Query any Position on the board for its type. Serves as the index ([]) operator.
+     */
     fun get(x: Int, y: Int): BoardTile = boardLayout[Position(x, y)]!!
     fun get(position: Position): BoardTile = boardLayout[position]!!
 
