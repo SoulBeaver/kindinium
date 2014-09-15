@@ -6,8 +6,10 @@ import java.util.concurrent.ArrayBlockingQueue
 import sun.reflect.generics.tree.Tree
 import java.util.Queue
 import com.sbg.vindinium.kindinium.bot.Action
+import java.util.ArrayList
+import com.sbg.vindinium.kindinium.pairwise
 
-data class Path(paths: HashMap<Position, Position?>, val destination: Position, start: Position) {
+data class Path(paths: Map<Position, Position?>, val destination: Position, start: Position) {
     private val path: Queue<Position>
     private val directions: Queue<Action>
 
@@ -33,21 +35,13 @@ data class Path(paths: HashMap<Position, Position?>, val destination: Position, 
         }
 
         path = reversedPath.reverse().toLinkedList()
+
+        directions = path.pairwise().map { pair ->
+            val (prev, curr) = pair
+            identifyActionToReachPosition(prev, curr)
+        }.toLinkedList()
+
         path.remove()
-        directions = linkedListOf<Action>()
-
-        val pathCopy = path.copyToArray().toLinkedList()
-
-        var previous = start
-        var next = pathCopy.remove()
-        while (next != destination) {
-            directions.add(identifyActionToReachPosition(previous, next))
-
-            previous = next
-            next = pathCopy.remove()
-        }
-
-        directions.add(identifyActionToReachPosition(previous, next))
     }
 
     private fun identifyActionToReachPosition(from: Position, to: Position): Action {
