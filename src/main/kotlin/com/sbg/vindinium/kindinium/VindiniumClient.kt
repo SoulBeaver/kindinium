@@ -69,14 +69,8 @@ class VindiniumClient(val bot: Bot) {
     }
 
     private fun play(startingUrl: String) {
-        log.info("Url:  $startingUrl")
         var response = sendRequest(startingUrl)
-        log.info("$response")
-        log.info("Board size:  ${response.game.board.size}")
-        log.info("Raw board:  ${response.game.board.tiles}")
-        log.info("${MetaBoard(response.game.board)}")
 
-        log.info("Initializing bot.")
         bot.initialize(response, MetaBoard(response.game.board))
 
         log.info("The game has started, you can view it here: ${response.viewUrl}")
@@ -121,7 +115,7 @@ class VindiniumClient(val bot: Bot) {
         val entity = response.getEntity() as ByteArrayInputStream
 
         InputStreamReader(entity).use {
-            println("There was an error with the request and the server replied: ${it.readText()}")
+            log.error("There was an error with the request and the server replied: ${it.readText()}")
         }
     }
 
@@ -129,6 +123,6 @@ class VindiniumClient(val bot: Bot) {
         /*
          * TODO: You must specify your own API key in order to play the game.
          */
-        val API_KEY = "u3d1qxgf"
+        val API_KEY = ""
     }
 }

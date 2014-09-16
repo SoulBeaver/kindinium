@@ -26,9 +26,6 @@ class CompetitiveBot: Bot {
 
     override fun initialize(response: Response, metaboard: MetaBoard) {
         heroTile = metaboard[response.hero.spawnPosition()]
-
-        log.info("We are hero $heroTile and are at position ${response.hero.spawnPosition()}")
-        log.info("I am currentl $state")
     }
 
     override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
@@ -49,27 +46,21 @@ class CompetitiveBot: Bot {
     private fun captureNearestNeutralMine(): Action {
         if (response.hero.life <= 20) {
             state = BotState.GoingToTavern
-            log.info("Now I am $state")
             return Action.Stay
         }
 
         if (pathToNearestNeutralMine == null) {
             if (metaboard.neutralMines().isEmpty()) {
                 state = BotState.Waiting
-                log.info("Now I am $state")
                 return Action.Stay
             }
 
             pathToNearestNeutralMine = metaboard.nearestNeutralMine(response.hero.position())
-            log.info("I am capturing the mine at ${pathToNearestNeutralMine!!.destination}")
         }
 
-        val (nextPosition, action) = pathToNearestNeutralMine!!.next()
-
-        log.info("I am going $action to $nextPosition")
+        val (_, action) = pathToNearestNeutralMine!!.next()
 
         if (pathToNearestNeutralMine!!.isEmpty()) {
-            log.info("I have arrived at the mine.")
             pathToNearestNeutralMine = null
         }
 
@@ -79,19 +70,15 @@ class CompetitiveBot: Bot {
     private fun goToTavern(): Action {
         if (response.hero.life > 20) {
             state = BotState.CapturingNearestNeutralMines
-            log.info("Now I am $state")
             return Action.Stay
         }
 
         if (pathToNearestTavern == null)
             pathToNearestTavern = metaboard.nearestTavern(response.hero.position())
 
-        val (nextPosition, action) = pathToNearestTavern!!.next()
-
-        log.info("I am going $action to $nextPosition")
+        val (_, action) = pathToNearestTavern!!.next()
 
         if (pathToNearestTavern!!.isEmpty()) {
-            log.info("I have arrived at the tavern.")
             pathToNearestTavern = null
         }
 
@@ -101,11 +88,9 @@ class CompetitiveBot: Bot {
     private fun waiting(): Action {
         if (response.hero.life <= 20) {
             state = BotState.GoingToTavern
-            log.info("Now I am $state")
             return Action.Stay
         } else if (metaboard.neutralMines().isNotEmpty()) {
             state = BotState.CapturingNearestNeutralMines
-            log.info("Now I am $state")
             return Action.Stay
         } else {
             return Action.Stay
