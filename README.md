@@ -34,19 +34,19 @@ turns and a random map is chosen.
 
 ### I want to play in Arena mode!
 
-Run the game with *-m arena*
+Run the game with `-m arena`
 
 ### I want to play in a predefined map!
 
-(Only in training mode) Run the game with *-map m#* where m# is in range of m1..m6
+*(Only in training mode)* Run the game with `-map m#` where m# is in range of m1..m6
 
 ### I want to change the number of turns a game is played!
 
-(Only in training mode) Run the game with *-t #* where # is the number of turns you'd like to play.
+*(Only in training mode)* Run the game with `-t #` where # is the number of turns you'd like to play.
 
 ## What's the metaboard and how do I use it?
 
-The metaboard recreates the map with additional information about each piece's location and type.
+The metaboard recreates the board with additional information about each piece's location and type.
 
 Each position is represented by a `BoardTile`
 

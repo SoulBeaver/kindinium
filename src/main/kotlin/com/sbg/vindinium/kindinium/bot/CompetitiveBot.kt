@@ -9,6 +9,10 @@ import com.sbg.vindinium.kindinium.model.board.toBoardTile
 import com.sbg.vindinium.kindinium.model.board.Path
 import org.slf4j.LoggerFactory
 
+/**
+ * The CompetitiveBot aims to provide a reasonably sophisticated AI suitable for
+ * arena-mode play.
+ */
 class CompetitiveBot: Bot {
     private var log = LoggerFactory.getLogger(javaClass<CompetitiveBot>())!!
 

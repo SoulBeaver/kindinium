@@ -18,29 +18,62 @@ data class MetaBoard(val board: Board) {
     private val importantTiles: Map<BoardTile, ArrayList<Position>>
     private val boardNavigator: BoardNavigator
 
+    /**
+     * Return the position of the specified hero.
+     */
     fun hero(symbol: String): Position = hero(toBoardTile(symbol))
     fun hero(boardTile: BoardTile): Position = importantTiles[boardTile]!!.single()
 
+    /**
+     * Return the position of any neutral mine.
+     */
     fun neutralMines(): List<Position> = importantTiles[BoardTile.NEUTRAL_GOLD_MINE]!!
 
+    /**
+     * Return the position of any mine owned by the specified hero.
+     */
     fun minesOwnedBy(symbol: String): List<Position> = minesOwnedBy(toBoardTile(symbol.replace("@", "$")))
     fun minesOwnedBy(boardTile: BoardTile): List<Position> = importantTiles[boardTile]!!
 
+    /**
+     * Return the position of all mines.
+     */
     fun allMines(): List<Position> = neutralMines() + minesOwnedBy("@1") + minesOwnedBy("@2") + minesOwnedBy("@3") + minesOwnedBy("@4")
 
+    /**
+     * Return the position of all taverns.
+     */
     fun taverns(): List<Position> = importantTiles[BoardTile.TAVERN]!!
 
+    /**
+     * Plots a path, if possible, to the nearest neutral mine.
+     */
     fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines(), from)
-    fun nearestMine(from: Position): Path = boardNavigator.pathToNearest(allMines(), from)!!
+    /**
+     * Plots a path, if possible, to the nearest mine.
+     */
+    fun nearestMine(from: Position): Path? = boardNavigator.pathToNearest(allMines(), from)
 
-    fun nearestTavern(from: Position): Path = boardNavigator.pathToNearest(taverns(), from)!!
+    /**
+     * Plots a path, if possible, to the nearest tavern.
+     */
+    fun nearestTavern(from: Position): Path? = boardNavigator.pathToNearest(taverns(), from)
 
+    /**
+     * Plots a path, if possible, from `from` to `to`.
+     */
     fun pathTo(from: Position, to: Position): Path? = boardNavigator.pathTo(to, from)
 
+    /**
+     * Return the BoardTile at the given location.
+     *
+     * Alternative syntax:
+     *
+     *     metaboard[0, 0] // or metaboard[Position(0, 0)]
+     */
     fun get(x: Int, y: Int): BoardTile {
         return get(Position(x, y))
     }
-
     fun get(position: Position): BoardTile {
         return structuredMap[position.y][position.x]
     }

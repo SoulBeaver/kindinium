@@ -25,7 +25,16 @@ import kotlin.properties.Delegates
  * current state of game.
  */
 trait Bot {
+    /**
+     * Create or initialize the bot using the first server response.
+     *
+     * @param response The first response, or initial game state, from the server.
+     * @param metaboard The MetaBoard representing the board.
+     */
     fun initialize(response: Response, metaboard: MetaBoard)
 
+    /**
+     * Given the server's information and metaboard, choose an {@see Action} for the bot to take.
+     */
     fun chooseAction(response: Response, metaboard: MetaBoard): Action
 }
