@@ -25,7 +25,7 @@ class CompetitiveBot: Bot {
     private var pathToNearestTavern: Path? = null
 
     override fun initialize(response: Response, metaboard: MetaBoard) {
-        heroTile = metaboard[response.hero.spawnPosition()]
+        heroTile = metaboard[response.hero.spawnPos]
     }
 
     override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
@@ -55,7 +55,7 @@ class CompetitiveBot: Bot {
                 return Action.Stay
             }
 
-            pathToNearestNeutralMine = metaboard.nearestNeutralMine(response.hero.position())
+            pathToNearestNeutralMine = metaboard.nearestNeutralMine(response.hero.pos)
         }
 
         val (_, action) = pathToNearestNeutralMine!!.next()
@@ -74,7 +74,7 @@ class CompetitiveBot: Bot {
         }
 
         if (pathToNearestTavern == null)
-            pathToNearestTavern = metaboard.nearestTavern(response.hero.position())
+            pathToNearestTavern = metaboard.nearestTavern(response.hero.pos)
 
         val (_, action) = pathToNearestTavern!!.next()
 

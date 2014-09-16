@@ -41,11 +41,8 @@ data class Hero {
     /**
      * The hero's current position
      */
-    private val pos = Position(0, 0)
-
-    fun position(): Position {
-        return Position(pos.y, pos.x)
-    }
+    val pos = Position(2, 4)
+        get() = Position($pos.y, $pos.x)
 
     /**
      * The hero's current life pool. 0 is a dead hero, but life cannot exceed 100.
@@ -65,11 +62,8 @@ data class Hero {
     /**
      * Where the player spawns on death. On initialization, is the same as the position.
      */
-    private val spawnPos = pos
-
-    fun spawnPosition(): Position {
-        return Position(spawnPos.y, spawnPos.x)
-    }
+    val spawnPos = Position(2, 4)
+        get() = Position($spawnPos.y, $spawnPos.x)
 
     /**
      * Whether or not the hero took more than the one second time to process.

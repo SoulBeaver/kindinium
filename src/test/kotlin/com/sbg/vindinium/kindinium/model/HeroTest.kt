@@ -19,11 +19,11 @@ class HeroTest: Spek() {{
                 assertEquals(hero.name, "IAE")
                 assertEquals(hero.userId, "pwszirn4")
                 assertEquals(hero.elo, 1200)
-                assertEquals(hero.position(), Position(2, 4))
+                assertEquals(hero.pos, Position(2, 4))
                 assertEquals(hero.life, 100)
                 assertEquals(hero.gold, 0)
                 assertEquals(hero.mineCount, 0)
-                assertEquals(hero.spawnPosition(), Position(2, 4))
+                assertEquals(hero.spawnPos, Position(2, 4))
                 assertEquals(hero.crashed, false)
             }
         }
