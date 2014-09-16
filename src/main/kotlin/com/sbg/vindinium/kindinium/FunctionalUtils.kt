@@ -22,6 +22,18 @@ public fun <T> Iterable<T>.pairwise(): List<Pair<T, T>> {
     }.drop(2)
 }
 
+/**
+ * Creates a sequential pairing of characters out of a string. Unliked {@see pairwise}, does not
+ * create a list of (last, next), but (next, next+1).
+ *
+ * Examples:
+ *
+ * - "".paired() => []
+ * - "a".paired() => []
+ * - "ab".paired() => ["ab"]
+ * - "abc".paired() => ["ab"]
+ * - "abcd".paired() => ["ab", "cd"]
+ */
 public fun String.paired(): List<String> {
     if (this.count() <= 1)
         return listOf()
@@ -30,6 +42,9 @@ public fun String.paired(): List<String> {
 
     var i = 0
     while (i != this.size) {
+        if (i + 1 == this.size)
+            break
+
         pairs.add("${this[i]}${this[i + 1]}")
         i += 2
     }

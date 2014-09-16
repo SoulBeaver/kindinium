@@ -101,7 +101,7 @@ class MetaBoardTest: Spek() {{
             val hero1Position = metaboard.hero("@1")
 
             it("returns the mine at (2, 7)") {
-                val pathToNearestMine = metaboard.nearestMine(hero1Position)
+                val pathToNearestMine = metaboard.nearestMine(hero1Position)!!
 
                 assertEquals(Position(2, 7), pathToNearestMine.destination)
             }
@@ -115,7 +115,7 @@ class MetaBoardTest: Spek() {{
             }
 
             it("returns all actions necessary to reach the mine at (2, 7)") {
-                val pathToNearestMine = metaboard.nearestMine(hero1Position)
+                val pathToNearestMine = metaboard.nearestMine(hero1Position)!!
 
                 assertEquals(Action.South, pathToNearestMine.next().action)
                 assertEquals(Action.South, pathToNearestMine.next().action)
@@ -127,13 +127,13 @@ class MetaBoardTest: Spek() {{
             val hero2Position = metaboard.hero("@2")
 
             it("returns the tavern at (8, 18)") {
-                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)
+                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)!!
 
                 assertEquals(Position(8, 18), pathToNearestTavern.destination)
             }
 
             it("returns a path to the mine at (8, 18)") {
-                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)
+                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)!!
 
                 assertEquals(Position(3, 17), pathToNearestTavern.next().position)
                 assertEquals(Position(3, 16), pathToNearestTavern.next().position)
@@ -147,7 +147,7 @@ class MetaBoardTest: Spek() {{
             }
 
             it("returns all actiosn necessary to reach the mine at (8, 18)") {
-                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)
+                val pathToNearestTavern = metaboard.nearestTavern(hero2Position)!!
 
                 assertEquals(Action.East, pathToNearestTavern.next().action)
                 assertEquals(Action.North, pathToNearestTavern.next().action)

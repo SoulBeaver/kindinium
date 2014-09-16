@@ -42,4 +42,46 @@ class FunctionalUtilsTest: Spek() {{
             assertEquals(expected, actual)
         }
     }
+
+    given("the paired function") {
+        on("an empty string") {
+            val zero = ""
+
+            it("returns an empty list") {
+                assertEquals(listOf<String>(), zero.paired())
+            }
+        }
+
+        on("a string with one character") {
+            val one = "a"
+
+            it("returns an empty list") {
+                assertEquals(listOf<String>(), one.paired())
+            }
+        }
+
+        on("a string with two characters") {
+            val two = "ab"
+
+            it("returns a list of one element") {
+                assertEquals(listOf("ab"), two.paired())
+            }
+        }
+
+        on("a string with three characters") {
+            val three = "abc"
+
+            it("returns a list of one element") {
+                assertEquals(listOf("ab"), three.paired())
+            }
+        }
+
+        on("a string with four characters") {
+            val four = "abcd"
+
+            it("returns a list of two elements") {
+                assertEquals(listOf("ab", "cd"), four.paired())
+            }
+        }
+    }
 }}

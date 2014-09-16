@@ -72,7 +72,7 @@ class CompetitiveBot: Bot {
     }
 
     private fun goToTavern(): Action {
-        if (response.hero.life > 20) {
+        if (response.hero.life < 100) {
             state = BotState.CapturingNearestNeutralMines
             return Action.Stay
         }
