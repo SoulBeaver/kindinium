@@ -6,180 +6,90 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import java.util.Queue
 import java.util.PriorityQueue
 import com.sbg.vindinium.kindinium.model.Position
+import com.sbg.vindinium.kindinium.paired
+import java.util.SortedMap
 
 /**
  * The Meta Board represents the board in greater detail, revealing the position of many unique
  * objects on the map and routes to each object from an arbitrary position.
  */
 data class MetaBoard(val board: Board) {
+    private val structuredMap: ArrayList<ArrayList<BoardTile>>
+    private val importantTiles: Map<BoardTile, ArrayList<Position>>
     private val boardNavigator: BoardNavigator
-    private val boardLayout: Map<Position, BoardTile>
-    private val heroes: Map<BoardTile, Position>
-    private val mines: List<Position>
-    private val contestedMines: Map<BoardTile, List<Position>>
-    private val neutralMines: List<Position>
-    private val taverns: List<Position>
 
-    /**
-     * Returns the position of a hero.
-     *
-     * @return the Position of the hero, or NoSuchElementException if the symbol is incorrect.
-     */
-    fun hero(symbol: String): Position = heroes[toBoardTile(symbol)]!!
-    fun hero(boardTile: BoardTile): Position = heroes[boardTile]!!
+    fun hero(symbol: String): Position = hero(toBoardTile(symbol))
+    fun hero(boardTile: BoardTile): Position = importantTiles[boardTile]!!.single()
 
-    /**
-     * Returns all mines on the map.
-     */
-    fun mines(): List<Position> = mines
-    /**
-     * Returns any mines owned by the chosen hero, or an empty list.
-     */
-    fun minesOwnedBy(symbol: String): List<Position> = contestedMines[toBoardTile(symbol)]!!
-    fun minesOwnedBy(boardTile: BoardTile): List<Position> = contestedMines[boardTile]!!
-    /**
-     * Returns any neutral mines, or an empty list if all mines are captured.
-     */
-    fun neutralMines(): List<Position> = neutralMines
+    fun neutralMines(): List<Position> = importantTiles[BoardTile.NEUTRAL_GOLD_MINE]!!
 
-    fun taverns(): List<Position> = taverns
+    fun minesOwnedBy(symbol: String): List<Position> = minesOwnedBy(toBoardTile(symbol.replace("@", "$")))
+    fun minesOwnedBy(boardTile: BoardTile): List<Position> = importantTiles[boardTile]!!
 
-    /**
-     * Returns a guaranteed Path to the nearest mine.
-     */
-    fun nearestMine(from: Position): Path = boardNavigator.pathToNearest(mines, from)!!
-    /**
-     * Returns a Path to the nearest neutral mine, or null if no neutral mines exist.
-     */
-    fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines, from)!!
-    /**
-     * Returns a Path to the nearest contested mine, or null if no contested mines exist.
-     */
-    fun nearestContestedMine(from: Position): Path? = boardNavigator.pathToNearest(contestedMines.values().reduce { all, part -> all + part}, from)
+    fun allMines(): List<Position> = neutralMines() + minesOwnedBy("@1") + minesOwnedBy("@2") + minesOwnedBy("@3") + minesOwnedBy("@4")
 
-    /**
-     * Returns a Path to the nearest hero.
-     */
-    fun nearestHero(from: Position): Path = boardNavigator.pathToNearest(heroes.values().toList(), from)!!
+    fun taverns(): List<Position> = importantTiles[BoardTile.TAVERN]!!
 
-    /**
-     * Returns a Path to the nearest tavern.
-     */
-    fun nearestTavern(from: Position): Path = boardNavigator.pathToNearest(taverns, from)!!
+    fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines(), from)
+    fun nearestMine(from: Position): Path = boardNavigator.pathToNearest(allMines(), from)!!
 
-    /**
-     * Returns a Path to anywhere, or null if a Path to the goal could not be found.
-     */
+    fun nearestTavern(from: Position): Path = boardNavigator.pathToNearest(taverns(), from)!!
+
     fun pathTo(from: Position, to: Position): Path? = boardNavigator.pathTo(to, from)
 
-    /**
-     * Query any Position on the board for its type. Serves as the index ([]) operator.
-     */
-    fun get(x: Int, y: Int): BoardTile = boardLayout[Position(x, y)]!!
-    fun get(position: Position): BoardTile = boardLayout[position]!!
+    fun get(x: Int, y: Int): BoardTile {
+        return get(Position(x, y))
+    }
 
-    /* Implementation details start here */
+    fun get(position: Position): BoardTile {
+        return structuredMap[position.y][position.x]
+    }
 
     {
-        boardLayout = parseMap()
-        heroes = locateHeroes()
-        contestedMines = locateContestedMines()
-        neutralMines = locateNeutralMines()
-        mines = neutralMines + contestedMines.values().reduce { flatList, list -> flatList + list }
-        taverns = locateTaverns()
+        structuredMap = ArrayList<ArrayList<BoardTile>>()
+        importantTiles = hashMapOf(
+                BoardTile.HERO_ONE to arrayListOf(),
+                BoardTile.HERO_TWO to arrayListOf(),
+                BoardTile.HERO_THREE to arrayListOf(),
+                BoardTile.HERO_FOUR to arrayListOf(),
 
+                BoardTile.TAVERN to arrayListOf(),
+
+                BoardTile.NEUTRAL_GOLD_MINE to arrayListOf(),
+                BoardTile.HERO_ONE_GOLD_MINE to arrayListOf(),
+                BoardTile.HERO_TWO_GOLD_MINE to arrayListOf(),
+                BoardTile.HERO_THREE_GOLD_MINE to arrayListOf(),
+                BoardTile.HERO_FOUR_GOLD_MINE to arrayListOf(),
+
+                BoardTile.ROAD to arrayListOf(),
+                BoardTile.IMPASSABLE_WOOD to arrayListOf()
+        )
         boardNavigator = BoardNavigator(this)
-    }
 
-    private fun parseMap(): Map<Position, BoardTile> {
-        val tiles = arrayListOf<Tile>()
-        board.tiles.reader.use {
-            var leftHalf = it.read()
-            var rightHalf = it.read()
+        var i = 0
+        while (i != board.tiles.size) {
+            if (i % (board.size * 2) == 0)
+                structuredMap.add(arrayListOf())
 
-            while (leftHalf != -1 && rightHalf != -1) {
-                tiles.add(Tile(leftHalf.toChar(), rightHalf.toChar()))
+            val left = board.tiles[i]
+            val right = board.tiles[i + 1]
 
-                leftHalf = it.read()
-                rightHalf = it.read()
+            structuredMap.last!!.add(toBoardTile("$left$right"))
+
+            i += 2
+        }
+
+        for ((y, row) in structuredMap.withIndices()) {
+            for ((x, tile) in row.withIndices()) {
+                importantTiles[tile]!!.add(Position(x, y))
             }
         }
-
-        return tiles.withIndices().map { pair ->
-            val (i, tile) = pair
-
-            Position(i % board.size, i / board.size) to toBoardTile(tile.toString())
-        }.toMap()
-    }
-
-    private fun locateHeroes(): Map<BoardTile, Position> {
-        return boardLayout.entrySet().filter { entry ->
-            val boardTile = entry.value
-
-            boardTile == BoardTile.HERO_ONE ||
-            boardTile == BoardTile.HERO_TWO ||
-            boardTile == BoardTile.HERO_THREE ||
-            boardTile == BoardTile.HERO_FOUR
-        }.map { entry -> entry.value to entry.key }.toMap()
-    }
-
-    private fun locateContestedMines(): Map<BoardTile, List<Position>> {
-        val contestedMines = boardLayout.entrySet().filter { entry ->
-            val boardTile = entry.value
-
-            boardTile == BoardTile.HERO_ONE_GOLD_MINE ||
-            boardTile == BoardTile.HERO_TWO_GOLD_MINE ||
-            boardTile == BoardTile.HERO_THREE_GOLD_MINE ||
-            boardTile == BoardTile.HERO_FOUR_GOLD_MINE
-        }
-
-        val truncatedContestedMines = hashMapOf(
-                BoardTile.HERO_ONE to arrayListOf<Position>(),
-                BoardTile.HERO_TWO to arrayListOf<Position>(),
-                BoardTile.HERO_THREE to arrayListOf<Position>(),
-                BoardTile.HERO_FOUR to arrayListOf<Position>()
-        )
-        for (mine in contestedMines) {
-            val heroTile = toBoardTile(mine.value.symbol.replace('$', '@'))
-            truncatedContestedMines[heroTile]!!.add(mine.key)
-        }
-
-        return truncatedContestedMines
-    }
-
-    private fun locateNeutralMines(): List<Position> {
-        return boardLayout.entrySet().filter { entry ->
-            val boardTile = entry.value
-
-            boardTile == BoardTile.NEUTRAL_GOLD_MINE
-        }.map { entry -> entry.key }
-    }
-
-    private fun locateTaverns(): List<Position> {
-        return boardLayout.entrySet().filter { entry ->
-            val boardTile = entry.value
-
-            boardTile == BoardTile.TAVERN
-        }.map { entry -> entry.key }
     }
 
     override fun toString(): String {
-        val invertedBoardLayout = boardLayout.map { entry ->
-            val position = entry.key
-
-            Position(position.y, position.x) to entry.value
-        }.toMap()
-
         return StringBuilder() {
-            for ((i, tile) in invertedBoardLayout.values().withIndices()) {
-                if (i % board.size == 0)
-                    appendln()
-                append(tile)
-            }
+            for (row in structuredMap)
+                appendln(row.fold("") { reconstructed, part -> reconstructed + part })
         }.toString()
-    }
-
-    private data class Tile(val leftPiece: Char, val rightPiece: Char) {
-        override fun toString(): String = "$leftPiece$rightPiece"
     }
 }

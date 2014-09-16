@@ -15,6 +15,18 @@ limitations under the License.
  */
 package com.sbg.vindinium.kindinium.model
 
-data class Position(val x: Int, val y: Int) {
+data class Position(val x: Int, val y: Int): Comparable<Position> {
+    override fun compareTo(other: Position): Int {
+        return if (x < other.x)
+            1
+        else if (x > other.x)
+            -1
+        else if (y < other.y)
+            1
+        else if (y > other.y)
+            1
+        else 0
+    }
+
     override fun toString(): String = "($x, $y)"
 }

@@ -11,12 +11,8 @@ import kotlin.test.assertTrue
 import com.sbg.vindinium.kindinium.bot.Action
 
 class MetaBoardTest: Spek() {{
-    val gson = Gson()
-    val json = javaClass.getClassLoader()!!.getResourceAsStream("board.json")!!.use { streamToString(it) }
-    val board = gson.fromJson(json, javaClass<Board>())!!
-
     given("A MetaBoard") {
-        val metaboard = MetaBoard(board)
+        val metaboard = MetaBoard(fromJson("board.json"))
 
         on("asking for the location of hero @1") {
             it("returns the position (2, 4)") {
@@ -78,7 +74,7 @@ class MetaBoardTest: Spek() {{
 
                 neutralMinePositions.forEach {
                     assertTrue(actualNeutralMinePositions.contains(it),
-                                "The value $it is not in actualMinePositions; $actualNeutralMinePositions")
+                            "The value $it is not in actualMinePositions; $actualNeutralMinePositions")
                 }
             }
         }
@@ -96,7 +92,7 @@ class MetaBoardTest: Spek() {{
 
                 tavernPositions.forEach {
                     assertTrue(actualTavernPositions.contains(it),
-                                "The value $it is not in actualTavernPositions; $actualTavernPositions")
+                            "The value $it is not in actualTavernPositions; $actualTavernPositions")
                 }
             }
         }
@@ -111,7 +107,7 @@ class MetaBoardTest: Spek() {{
             }
 
             it("returns a path to the mine at (2, 7)") {
-                val pathToNearestMine = metaboard.nearestMine(hero1Position)
+                val pathToNearestMine = metaboard.pathTo(hero1Position, Position(2, 7))!!
 
                 assertEquals(Position(2, 5), pathToNearestMine.next().position)
                 assertEquals(Position(2, 6), pathToNearestMine.next().position)
@@ -165,4 +161,33 @@ class MetaBoardTest: Spek() {{
             }
         }
     }
-}}
+
+    given("A second board") {
+        val metaboard = MetaBoard(fromJson("board2.json"))
+
+        on("finding the nearest neutral mine") {
+            it("returns the neutral mine at (4, 2)") {
+                val nearestNeutralMine = metaboard.nearestNeutralMine(metaboard.hero("@1"))!!
+
+                assertEquals(Position(4, 2), nearestNeutralMine.destination)
+            }
+        }
+    }
+
+    given("A third board") {
+        val metaboard = MetaBoard(fromJson("board3.json"))
+
+        on("finding the nearest neutral mine") {
+            it("returns the neutral mine at (0, 4)") {
+                val nearestNeutralMine = metaboard.nearestNeutralMine(metaboard.hero("@1"))!!
+
+                assertEquals(Position(0, 4), nearestNeutralMine.destination)
+            }
+        }
+    }
+}
+    private fun fromJson(name: String): Board {
+        val json2 = javaClass.getClassLoader()!!.getResourceAsStream(name)!!.use { streamToString(it) }
+        return Gson().fromJson(json2, javaClass<Board>())!!
+    }
+}

@@ -27,7 +27,7 @@ class RandomBot: Bot {
     private val random = Random()
     private val possibleActions = Action.values()
 
-    override fun initialize(response: Response) {
+    override fun initialize(response: Response, metaboard: MetaBoard) {
         // RandomBot does nothing during initialization.
     }
 

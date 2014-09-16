@@ -17,12 +17,13 @@ package com.sbg.vindinium.kindinium
 
 import com.beust.jcommander.JCommander
 import com.sbg.vindinium.kindinium.bot.RandomBot
+import com.sbg.vindinium.kindinium.bot.CompetitiveBot
 
 fun main(args: Array<String>) {
     val programArguments = parseProgramArguments(args)
 
     // TODO: Choose your own bot here.
-    val client = VindiniumClient(RandomBot())
+    val client = VindiniumClient(CompetitiveBot())
 
     if (programArguments.gameMode == "training")
         client.playInTrainingMode(programArguments.gameTurns, programArguments.gameMap)

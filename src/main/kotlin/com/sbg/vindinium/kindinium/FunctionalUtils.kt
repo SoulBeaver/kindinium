@@ -21,3 +21,18 @@ public fun <T> Iterable<T>.pairwise(): List<Pair<T, T>> {
         list + Pair(list.last!!.second!!, current)
     }.drop(2)
 }
+
+public fun String.paired(): List<String> {
+    if (this.count() <= 1)
+        return listOf()
+
+    val pairs = arrayListOf<String>()
+
+    var i = 0
+    while (i != this.size) {
+        pairs.add("${this[i]}${this[i + 1]}")
+        i += 2
+    }
+
+    return pairs
+}

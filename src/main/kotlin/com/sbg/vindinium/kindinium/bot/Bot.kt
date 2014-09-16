@@ -25,7 +25,7 @@ import kotlin.properties.Delegates
  * current state of game.
  */
 trait Bot {
-    fun initialize(response: Response)
+    fun initialize(response: Response, metaboard: MetaBoard)
 
     fun chooseAction(response: Response, metaboard: MetaBoard): Action
 }

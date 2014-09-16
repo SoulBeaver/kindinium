@@ -28,6 +28,7 @@ import java.io.InputStreamReader
 import javax.ws.rs.NotFoundException
 import com.sbg.vindinium.kindinium.bot.Bot
 import com.sbg.vindinium.kindinium.model.board.MetaBoard
+import org.slf4j.LoggerFactory
 
 /**
  * Controller class that starts, runs, and terminates a session with the Vindinium server. Accepts
@@ -37,6 +38,8 @@ import com.sbg.vindinium.kindinium.model.board.MetaBoard
  * and the map on which to spar.
  */
 class VindiniumClient(val bot: Bot) {
+    private val log = LoggerFactory.getLogger(javaClass<VindiniumClient>())!!
+
     private val serverUrl = "http://vindinium.org/api"
 
     private val client = ClientBuilder.newClient()!!
@@ -66,16 +69,21 @@ class VindiniumClient(val bot: Bot) {
     }
 
     private fun play(startingUrl: String) {
+        log.info("Url:  $startingUrl")
         var response = sendRequest(startingUrl)
+        log.info("$response")
+        log.info("Board size:  ${response.game.board.size}")
+        log.info("Raw board:  ${response.game.board.tiles}")
+        log.info("${MetaBoard(response.game.board)}")
 
-        bot.initialize(response)
+        log.info("Initializing bot.")
+        bot.initialize(response, MetaBoard(response.game.board))
 
-        println("The game has started, you can view it here: ${response.viewUrl}")
-        println("Please don't exit the program until it has notified you of game completion")
+        log.info("The game has started, you can view it here: ${response.viewUrl}")
+        log.info("Please don't exit the program until it has notified you of game completion")
 
         while (!response.game.finished) {
-            System.out.print("\rTurn ${response.game.turn} of ${response.game.maxTurns}")
-            System.out.flush()
+            log.info("Turn ${response.game.turn} of ${response.game.maxTurns}")
 
             val metaBoard = MetaBoard(response.game.board)
             val nextAction = bot.chooseAction(response, metaBoard)
@@ -83,7 +91,7 @@ class VindiniumClient(val bot: Bot) {
             response = sendRequest("${response.playUrl}?key=${API_KEY}&dir=${nextAction.name}")
         }
 
-        println("\nThe game has finished.")
+        log.info("The game has finished.")
     }
 
     private fun sendRequest(url: String): Response {
@@ -121,6 +129,6 @@ class VindiniumClient(val bot: Bot) {
         /*
          * TODO: You must specify your own API key in order to play the game.
          */
-        val API_KEY = ""
+        val API_KEY = "u3d1qxgf"
     }
 }
