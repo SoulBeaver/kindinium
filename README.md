@@ -13,7 +13,7 @@ Kindinium boasts:
 - Training and Arena mode
 - Customization of training mode (number of turns, map)
 - A MetaBoard. It analyzes the json board and gives you information on the locations of heroes, mines, and taverns
-- Simple pathfinding. Get a path to the nearest (contested|neutral|any) mine, tavern, or hero.
+- Pathfinding. Find the nearest [mine, tavern, hero], or let the MetaBoard plot a path from anywhere to anywhere (if accessible)
 
 ## What do I need?
 
@@ -46,8 +46,7 @@ Run the game with *-m arena*
 
 ## What's the metaboard and how do I use it?
 
-The metaboard analyzes the json board element and converts it into a `Hashmap<Position, BoardTile>`. In other words,
-it recreates the map with additional information about each piece's location and type.
+The metaboard recreates the map with additional information about each piece's location and type.
 
 Each position is represented by a `BoardTile`
 
@@ -89,7 +88,15 @@ To use this in your code, follow this example:
         val (nextPosition, actionToReachNextPosition) = pathToNearestMine.next()
         
 Once the `pathToNearestMine` is empty, you should have reached your destination! Of course, you can
-ask the metaboard to recalculate the path again. Note that heroes do *not* count as obstacles.
+ask the metaboard to recalculate the path again.
+
+You can also ask the metaboard for any position in particular:
+
+    val pathToSpawnPosition = metaboard.pathTo(response.hero.spawnPos, myHeroPosition)
+    
+**Note:** If a Path could not be calculated, then these functions return null. 
+
+**Note:** Heroes, taverns and mines ordinarily count as obstacles. 
 
 ## How do I change my bot?
 
@@ -103,10 +110,10 @@ With the bot of your choosing. Please implement the *Bot* trait.
 
 ## What's in store for future iterations?
 
-I'd like to expand the MetaBoard. It's great that you can see the location of everything in the game, or
-even go straight to the entire board and create your own pathfinding algorithms. However, I'd like to take
-care of the pathfinding in future versions, so that you can focus on the algorithms necessary to defeat
-your opponent!
+Now that the MetaBoard and Pathfinding are functionally complete, I'd like to expand the test suites and
+consider additional functionality benefitting anybody wishing to write some clever AI routines. I've also
+started adding a CompetitiveBot, which is my personal implementation of an AI for the Vindinium challenge.
+Take a look, modify and feel free to use whatever's there to your heart's content.
 
 ## I have further questions!
 
