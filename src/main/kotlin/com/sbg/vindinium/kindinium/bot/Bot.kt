@@ -19,6 +19,7 @@ import com.sbg.vindinium.kindinium.model.Game
 import com.sbg.vindinium.kindinium.model.board.MetaBoard
 import com.sbg.vindinium.kindinium.model.Response
 import kotlin.properties.Delegates
+import com.sbg.vindinium.kindinium.bot.state.BotState
 
 /**
  * A bot is any entity capable of choosing an action based in part on the
@@ -37,4 +38,9 @@ trait Bot {
      * Given the server's information and metaboard, choose an {@see Action} for the bot to take.
      */
     fun chooseAction(response: Response, metaboard: MetaBoard): Action
+
+    /**
+     * Change the bot's behavior through its BotState.
+     */
+    fun switchToState(state: BotState)
 }

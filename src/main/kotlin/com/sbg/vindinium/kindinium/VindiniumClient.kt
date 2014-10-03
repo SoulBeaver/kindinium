@@ -99,7 +99,7 @@ class VindiniumClient(val bot: Bot) {
     private fun post(serverTarget: WebTarget): String {
         try {
             return serverTarget.request(MediaType.APPLICATION_JSON)!!
-                                 .post(null, javaClass<String?>())!!
+                               .post(null, javaClass<String?>())!!
         } catch (e: BadRequestException) {
             formatAndDisplayError(e.getResponse()!!)
 
@@ -123,6 +123,6 @@ class VindiniumClient(val bot: Bot) {
         /*
          * TODO: You must specify your own API key in order to play the game.
          */
-        val API_KEY = ""
+        val API_KEY = "u3d1qxgf"
     }
 }

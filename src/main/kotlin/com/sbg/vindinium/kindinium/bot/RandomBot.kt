@@ -19,6 +19,7 @@ import com.sbg.vindinium.kindinium.model.Game
 import java.util.Random
 import com.sbg.vindinium.kindinium.model.board.MetaBoard
 import com.sbg.vindinium.kindinium.model.Response
+import com.sbg.vindinium.kindinium.bot.state.BotState
 
 /**
  * The RandomBot follows no particular logic when deciding which action to take.
@@ -33,5 +34,9 @@ class RandomBot: Bot {
 
     override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
         return possibleActions[random.nextInt(possibleActions.size)]
+    }
+
+    override fun switchToState(state: BotState) {
+        // The random bot has no states.
     }
 }
