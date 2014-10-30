@@ -31,6 +31,10 @@ data class Path(paths: Map<Position, Position?>, val destination: Position, val 
         return path.isEmpty()
     }
 
+    public fun size() : Int {
+        return path.size;
+    }
+
     public fun isNotEmpty(): Boolean {
         return path.isNotEmpty()
     }

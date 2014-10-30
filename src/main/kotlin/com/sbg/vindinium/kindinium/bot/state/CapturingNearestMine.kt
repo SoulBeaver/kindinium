@@ -8,7 +8,7 @@ import com.sbg.vindinium.kindinium.model.board.Path
 import kotlin.properties.Delegates
 import com.sbg.vindinium.kindinium.model.getEnemies
 
-class CapturingNearestNeutralMine(val bot: Bot): BotState {
+class CapturingNearestMine(val bot: Bot): BotState {
     private var pathToNearestMine: Path? = null
 
     override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
@@ -18,15 +18,27 @@ class CapturingNearestNeutralMine(val bot: Bot): BotState {
             return state.chooseAction(response, metaboard)
         }
 
-        if (pathToNearestMine == null) {
-            if (metaboard.neutralMines().isEmpty()) {
-                bot.switchToState(Waiting(bot))
-                return Action.Stay
+        if (response.hero.life > 90) {
+            val nearestHeroDistance = metaboard.nearestHero(response.hero.pos)?.size()
+            if (nearestHeroDistance!! <=(2)) {
+                val state = AttackNearestHero(bot)
+                bot.switchToState(state)
+                return state.chooseAction(response, metaboard)
             }
+        }
 
-            pathToNearestMine = metaboard.nearestNeutralMine(response.hero.pos)
+        if (pathToNearestMine == null) {
+            pathToNearestMine = metaboard.nearestAvailableMine(response.hero.pos, response.getEnemies())
+
             if (pathToNearestMine!!.isEmpty()) {
-                pathToNearestMine = metaboard.nearestAvailableMine(response.hero.pos, response.getEnemies())
+                if (metaboard.nearestTavern(response.hero.pos)?.size()!! > 2) {
+                    val state = GoingToTavern(bot)
+                    bot.switchToState(state)
+                    return state.chooseAction(response, metaboard)
+                } else {
+                    bot.switchToState(Waiting(bot))
+                    return Action.Stay
+                }
             }
         }
 
