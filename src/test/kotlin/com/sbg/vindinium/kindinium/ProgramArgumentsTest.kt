@@ -1,11 +1,11 @@
 package com.sbg.vindinium.kindinium
 
-import org.spek.Spek
 import com.beust.jcommander.JCommander
 import kotlin.test.assertEquals
 import kotlin.test.failsWith
 import com.beust.jcommander.ParameterException
 import kotlin.test.assertNull
+import org.jetbrains.spek.api.Spek
 
 class ProgramArgumentsTest: Spek() {{
     given("ProgramArguments for parsing program arguments") {

@@ -1,9 +1,9 @@
 package com.sbg.vindinium.kindinium.model
 
-import org.spek.Spek
 import com.google.gson.Gson
 import kotlin.test.assertEquals
 import com.sbg.vindinium.kindinium.streamToString
+import org.jetbrains.spek.api.Spek
 
 class HeroTest: Spek() {{
     val gson = Gson()

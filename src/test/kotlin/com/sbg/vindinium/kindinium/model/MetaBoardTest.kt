@@ -1,16 +1,15 @@
 package com.sbg.vindinium.kindinium.model
 
-import org.spek.Spek
 import com.google.gson.Gson
 import com.sbg.vindinium.kindinium.streamToString
 import kotlin.test.assertEquals
 import com.sbg.vindinium.kindinium.model.board.Board
 import com.sbg.vindinium.kindinium.model.board.MetaBoard
-import com.sbg.vindinium.kindinium.model.board.BoardTile
 import kotlin.test.assertTrue
 import com.sbg.vindinium.kindinium.bot.Action
+import org.jetbrains.spek.api.Spek
 
-class MetaBoardTest: Spek() {{
+class MetaBoardTest : Spek() {{
     given("A MetaBoard") {
         val metaboard = MetaBoard(fromJson("board.json"))
 
