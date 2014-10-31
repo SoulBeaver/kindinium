@@ -41,3 +41,15 @@ data class Response {
      */
     val hero = Hero()
 }
+
+public fun Response.getEnemies(): Array<String> {
+    return Array(3, { i ->
+        val id = i + 1
+        if (id >= this.hero.id) {
+            "@${id + 1}"
+        } else {
+            "@${id}"
+        }
+    })
+}
+

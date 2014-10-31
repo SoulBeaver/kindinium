@@ -41,18 +41,48 @@ data class MetaBoard(val board: Board) {
     fun allMines(): List<Position> = neutralMines() + minesOwnedBy("@1") + minesOwnedBy("@2") + minesOwnedBy("@3") + minesOwnedBy("@4")
 
     /**
+     * Return the position of available mines
+     */
+    fun availableMines(enemies : Array<String>) : List<Position> {
+        return neutralMines() + minesOwnedBy(enemies[0]) + minesOwnedBy(enemies[1]) + minesOwnedBy(enemies[2])
+    }
+
+    /**
+     * Return the position of all heroes
+     */
+    fun heroes(): List<Position> {
+        val heroesPositions = ArrayList<Position>()
+        heroesPositions.addAll(importantTiles[BoardTile.HERO_ONE])
+        heroesPositions.addAll(importantTiles[BoardTile.HERO_TWO])
+        heroesPositions.addAll(importantTiles[BoardTile.HERO_THREE])
+        heroesPositions.addAll(importantTiles[BoardTile.HERO_FOUR])
+        return heroesPositions;
+    }
+
+    /**
+     * Return the position of nearest hero
+     */
+    fun nearestHero(from: Position) : Path? = boardNavigator.pathToNearest(heroes(), from)
+
+    /**
      * Return the position of all taverns.
      */
     fun taverns(): List<Position> = importantTiles[BoardTile.TAVERN]!!
 
     /**
-     * Plots a path, if possible, to the nearest neutral mine.
+     * Plots a path, if possible, to the nearest neutral mine.C
      */
     fun nearestNeutralMine(from: Position): Path? = boardNavigator.pathToNearest(neutralMines(), from)
+
     /**
      * Plots a path, if possible, to the nearest mine.
      */
     fun nearestMine(from: Position): Path? = boardNavigator.pathToNearest(allMines(), from)
+
+    /**
+     * Plots a path, if possible, to the nearest mine.
+     */
+    fun nearestAvailableMine(from: Position, enemies: Array<String>): Path? = boardNavigator.pathToNearest(availableMines(enemies), from)
 
     /**
      * Plots a path, if possible, to the nearest tavern.

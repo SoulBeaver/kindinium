@@ -11,8 +11,9 @@ class GoingToTavern(val bot: Bot): BotState {
 
     override fun chooseAction(response: Response, metaboard: MetaBoard): Action {
         if (response.hero.life > 90) {
-            bot.switchToState(CapturingNearestNeutralMine(bot))
-            return Action.Stay
+            val state = CapturingNearestMine(bot)
+            bot.switchToState(state)
+            return state.chooseAction(response, metaboard)
         }
 
         if (pathToNearestTavern == null)

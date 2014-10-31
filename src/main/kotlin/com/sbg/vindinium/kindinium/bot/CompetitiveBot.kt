@@ -9,6 +9,7 @@ import com.sbg.vindinium.kindinium.model.board.toBoardTile
 import com.sbg.vindinium.kindinium.model.board.Path
 import org.slf4j.LoggerFactory
 import com.sbg.vindinium.kindinium.bot.state.BotState
+import com.sbg.vindinium.kindinium.bot.state.CapturingNearestMine
 import com.sbg.vindinium.kindinium.bot.state.CapturingNearestNeutralMine
 
 /**

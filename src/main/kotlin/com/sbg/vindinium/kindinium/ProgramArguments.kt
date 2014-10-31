@@ -33,7 +33,7 @@ class ProgramArguments {
     Parameter(names = array("-mode", "-m"),
                 description = "Vinidium's supported game modes are [training, arena]. Default is training.",
                 validateWith = javaClass<GameModeValidator>())
-    val gameMode: String = "training"
+    val gameMode: String = "arena"
 
     Parameter(names = array("-turns", "-t"),
                 description = "How long a game shoudl run. Default is 300 turns.",
