@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>0.8.11</kotlin.version>
-        <spek.version>0.1.127</spek.version>
+        <kotlin.version>0.9.206</kotlin.version>
+        <spek.version>0.1.142</spek.version>
     </properties>
 
     <repositories>
@@ -52,7 +52,7 @@
             <version>1.1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.spek</groupId>
+            <groupId>org.jetbrains.spek</groupId>
             <artifactId>spek</artifactId>
             <version>${spek.version}</version>
             <scope>test</scope>

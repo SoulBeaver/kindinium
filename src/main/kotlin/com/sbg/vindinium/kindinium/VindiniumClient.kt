@@ -23,7 +23,6 @@ import com.sbg.vindinium.kindinium.model.Response
 import javax.ws.rs.BadRequestException
 import javax.ws.rs.client.WebTarget
 import java.io.ByteArrayInputStream
-import java.nio.charset.StandardCharsets
 import java.io.InputStreamReader
 import javax.ws.rs.NotFoundException
 import com.sbg.vindinium.kindinium.bot.Bot
@@ -99,7 +98,7 @@ class VindiniumClient(val bot: Bot) {
     private fun post(serverTarget: WebTarget): String {
         try {
             return serverTarget.request(MediaType.APPLICATION_JSON)!!
-                               .post(null, javaClass<String?>())!!
+                               .post(null, javaClass<String>())!!
         } catch (e: BadRequestException) {
             formatAndDisplayError(e.getResponse()!!)
 

@@ -1,11 +1,11 @@
 package com.sbg.vindinium.kindinium.model
 
-import org.spek.Spek
 import com.google.gson.Gson
 import com.sbg.vindinium.kindinium.streamToString
 import kotlin.test.assertEquals
+import org.jetbrains.spek.api.Spek
 
-class ResponseTest: Spek() {{
+class ResponseTest : Spek() {{
     val gson = Gson()
 
     given("A JSON representation of a Response") {
@@ -21,4 +21,5 @@ class ResponseTest: Spek() {{
             }
         }
     }
-}}
+}
+}

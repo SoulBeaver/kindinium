@@ -1,7 +1,7 @@
 package com.sbg.vindinium.kindinium
 
-import org.spek.Spek
 import kotlin.test.assertEquals
+import org.jetbrains.spek.api.Spek
 
 class FunctionalUtilsTest: Spek() {{
     given("the pairwise function") {
